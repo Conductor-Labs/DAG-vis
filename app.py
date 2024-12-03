@@ -5,14 +5,13 @@ from streamlit_flow.elements import StreamlitFlowNode, StreamlitFlowEdge
 from streamlit_flow.state import StreamlitFlowState
 from streamlit_flow.layouts import LayeredLayout
 
-
-#test 
-
+# Set page configuration
 st.set_page_config(
     page_title="Techno-Economic Analysis App",
     page_icon="💡",
     layout="wide",
 )
+
 # File uploader
 uploaded_file = st.file_uploader("Choose a DAG JSON file", type=["json"])
 
@@ -70,6 +69,7 @@ if uploaded_file is not None:
         edge_id = edge.get('edge_id', '')
         source = edge.get('source', '')
         target = edge.get('target', '')
+        edge_name = edge.get('name', '')  # Extract the edge name for labeling
         stream_type = edge.get('stream_type', '')
         animated = True if stream_type == 'core' else False
         if source not in node_ids or target not in node_ids:
@@ -79,6 +79,7 @@ if uploaded_file is not None:
             id=edge_id,
             source=source,
             target=target,
+            label=edge_name,  # Add the label here
             animated=animated
         )
         edges.append(st_edge)
